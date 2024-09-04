@@ -1,0 +1,1152 @@
+5.类和对象
+各种物体都有自己状态和行为，相关的物体还会产生相互作用。人们在认识物体的过程中，会考察它们的行为和状态，随着认识的深入，会自然而然地将相同或相似的物体归纳成一个类型。
+软件开发的任务是使用软件空间来模拟业务(真实或虚拟的)空间。当面对业务问题时，应首先分析业务空间中有多少物体，各种物体的行为是什么，哪些物体属于什么类型。比如，兔子会行走、吃草，而草会长大，被兔子啃食后，长度变短。
+面向对象程序设计[中国大陆地区译作“面向对象”，台湾地区译作“物件导向”，作者认为后者更准确。](OOP，Object Oriented Programming)的思想与人类的思维方式相似：首先识别个体，然后归纳出类型来刻画它(们)。在软件空间中，业务系统中的物体被称为“对象”，相同(或相似)的对象被归纳为特定的类型，并使用“类”这一术语进行描述。类也可以描述现实世界中不存在的事物，比如虚拟空间的某些角色可以喷火、飞行，另外一些角色则只能在陆地上行走、攻击等。
+5.1.为实体建模
+5.1.1.根据责任识别对象
+对象是一个具有特定行为的实体（如有形的汽车或无形的工资、价格等），它对外表现某种责任[ 责任意味着该实体的潜在能力，它在得到消息后可以顺利履行该责任。实体一般不自动履行责任。]，可以应外界要求提供服务。如教室的灯，它的责任是照明，有“开”、“关”两个行为来启动或结束它的责任。一个自动面条机，它有“接受面粉和水”和“输出面条”的行为来完成它的责任。
+考察一个场景：将一个矩形显示在一个窗口中，操作者可以改变它的位置(图 51)。
+
+图 51 一个可以移动的矩形
+显示图形涉及到比较复杂的技术，暂且不论。就被显示、被移动的物体而言，它的责任是：
+能够“画”出自己；
+能够改变自己位置。
+5.1.2.用类来刻画对象或对象群体
+作为成年人，读者拥有很多知识，会认为“老虎会咬人、兔子会吃草”是自然而然的事情。但人类对世界一无所知的时候，只能从众多个体中发现相同的行为，然后将相同个体归纳为某种类型，从而完成认知过程[ 事实上，人和动物在一生中都在不停地分类，以达到认识世界的目的。]。比如，人们在观察到某一种动物会攻击其它动物和人，就把它归纳为一个类型—命名为“老虎”[ 名字并不重要，关键是该类动物的行为。如果某个凶猛的食肉动物当初被命名为“老鼠”，可能也会产生“谈鼠色变”这样的成语。]，并把“捕食其它动物”作为该类型的主要行为。
+类型一旦被建立，即具备了代表该类型个体的能力，从而成为描述个体的工具。比如，人们再次看见“老虎”这种动物，就会立即躲避。即使仅听到“老虎”这一个词汇，也会建立起相应的概念，“谈虎色变”这一成语形象地说明了类型代表个体的能力。类似地，人们观察到某种善于奔跑的食草动物性格温顺，就把它归纳为另一种类型—并命名为“山羊”，把“食草”作为该类型的主要行为。人们再次见到它，就会尝试捕捉它作为食物或圈养起来。
+5.1.3.建立模型
+建立模型是模拟现实世界的手段，可以通过自然语言、数学表达式或计算机语言来完成。在数学模型中，使用变量表示要分析的实际问题中的各种因素；分析这些变量之间的关系，哪些是相互依存的，哪些是独立的，他们具有什么样的关系；使用计算结果解释实际问题，并且分析结果的可靠性。如是一个描述自由落体的数学模型，我们可以用它来分析任何自由落体运动—把具体的时刻t代入公式，即可得到物体从0时刻到t时刻的位移。
+面向对象的思维方式使用类为客观世界中的事物建模，可以描述物体的行为，也可以描述物体之间的关系。类定义结束后，要根据类创建对象，并为对象设置状态以及对象之间的关系，然后让它们根据自身逻辑进行运行。
+5.1.4.使用Java类为实体建模
+类图是表达类的手段，与具体的实现语言无关。Java使用class关键字来表达类。根据前面描述的场景，矩形对象的责任是移动和画出自己，我们使用Rect类定义相应的行为。
+类 51是一个最基本的类的定义：第1行中class为类的关键字，Rect是类的名字[ 根据Java规范，类名是一个名词，采用大小写混合方式，每个单词的首字母大写。尽量使你的类名简洁而富有描述性。使用完整单词，避免缩写词(除非该缩写词被广泛地使用，如URL，HTML)。例如：ControlPanel（控制面板）、TaskDocument（任务书）、ProjectCategory（工程类别）。]，最右侧的“{”表示类主体的开始，第2行（也是最后一行） 中的“}”表示类主体的结束。关键字final代表本类不能被扩展(详情参见后面的章节)。
+
+1 public final class Rect {	
+2 }
+类 51 一个最基本的类定义
+类 51所示的类在语法上完全正确，但没有定义任何方法，故根据它创建的对象没有接收、处理消息的能力(即没有能力为其它类提供服务，无法履行任何责任)。Rect类必须用方法来描述自己所承担的责任，来响应外界对它行为的请求。
+我们可以创建测试方案，以便随时测试实体类的正确性[ 在软件领域，一些基本组件的测试往往由开发者完成，组件完成后，开发者的开发经历会干扰测试程序。在开发完成之前写好测试程序，可以最大限度地保证测试的客观性。]。
+创建Rect对象
+打印对象的x的值
+向对象发送moveRight()消息
+打印对象的x的值
+编写对应的Java程序(类 52)。
+1 public class RectTest {
+2     public static void main(String[] args) {
+3         Rect rect = null;
+4         rect = new Rect();
+5         System.out.println(rect.x);
+6         rect.moveRight();
+7         System.out.println(rect.x);
+8     }
+9 }
+类 52 测试类RectTest
+在类 52中，第3行声明了Rect类型的变量rect，但不指向任何一个对象。
+第4行创建一个Rect类型的对象(该对象的字段x获得了默认值20)并让变量rect指向它。
+第5行输出rect指向的对象(以后简称为“rect对象”[ 尽管变量和对象是完全不同的数据，但本书为了表达方便，约定： “rect对象”即“变量rect所代表的对象”。而“Rect对象”即“Rect类的一个对象”。])的x字段值，检查它的初始值。
+第6行，rect对象执行moveRight()方法，完成右移。
+第7行，再次输出rect对象的x字段值，以检查x坐标是否改变。
+Rect类已经定义，所以第3到4行不会的异常抛出。但是，第5行和第7行输出rect对象的x字段值会抛出异常，因为Rect中没有定义x字段。同样，第6行向rect对象发送moveRight消息，也会抛出异常，因为Rect类中没有定义该方法。
+Rect需要定义moveRight方法来响应外部的“移动”请求。类 53中第5行是方法moveRight定义的开始，也称方法首部。moveRight()表示方法名称[方法名是一个动词或动词性词组，采用大小写混合方式，第一个单词的首字母小写，其后单词的首字母大写。例如：run()、setName()、getBackground()。](参数声明在括号里，即使没有参数，也必须有一对空括号)；public表示这个方法是公共的，可以被其它类的方法调用；void表示此方法没有返回值。
+第6行是方法定义的结束；第7行是类结束符号。
+第2-4行是对方法的注释。这种注释以“/**”开头、“*/”结束，可以被文档生成器[Javadoc是Sun（于2010年经被Oracle收购）公司提供的一个技术，它从程序源代码中抽取类、方法、成员等注释形成一个和源代码配套的API帮助文档。]提取到文档中去。注释虽然不产生任何可执行代码，但良好的注释能够提高程序的可读性。
+方法是类的一种成员，它必须完整地嵌套于类中。一个类可有多个方法，各方法之间是并列关系。
+1 public final class Rect {	
+2 	/** 
+3 	 * 将图形右移
+4 	 */
+5 	public void moveRight () {		
+6 	}	
+7 }
+类 53 定义一个空方法
+类 53中有了方法定义，其它对象也可通过调用Rect的对象的moveRight()来给该对象发送消息。但是，类中的moveRight()方法没有任何行为(没有为完成责任而设置的细节)，这意味着此类的对象能够接受消息，却没有处理消息的能力。
+类 54则实现了方法moveRight()。表达位置变化，需要坐标数据支持。故在第9行定义了一个字段来表达横向坐标，“x”是字段名称(此处已经被赋值为“20”)，“int”表示该字段为整型数据，public表示这个字段可以在其它类中被访问[ 一般情况下字段用“private”来修饰，表示这个字段是“私有的”，只能在本类的对象中使用，其它对象无法直接访问私有成员。此处将其声明为公共的，仅为了简化程序。]。 
+第6行将本对象的x坐标增加5个单位，从而实现“图形右移”的任务。
+方法的完整定义，使该类的对象具备了右移的能力——当其它对象(比如控制面板对象)需要一个Rect类型的对象往右移动5个像素时，即向后者发送moveRight()消息(调用后者的moveRight()方法)。后者收到消息后，将自身坐标右移5个像素。值得注意的是，屏幕的左上角坐标为（0，0），右面的坐标比左边大，下面的比上面的大。
+第8行是空行，用来分割方法和字段的定义。空行不产生操作，但可以增加程序的可读性。
+01	public final class Rect  {
+02		/** 
+03		 * 将图形右移
+04		 */
+05		public void moveRight() {		
+06			this.x += 5;
+07		}
+08	
+09		public int x = 20;
+10	}
+类 54定义方法来描述行为
+现在，可以执行测试程序。如图 52所示，编译[ 如果该类文件以utf8编码方式保存，编译时需使用“-encoding utf8”指定，否则编译器默认源文件以GBK编码。]后，程序执行的输出是20和15。 
+
+图 52 RectTest的运行结果
+5.1.5.完整的Rect类
+矩形职责还包含画出自己的行为，类 55给出了Rect类的完整版本。
+import关键字不宜被理解为“导入”(容易被误解一个类被包含到当前类中)，而应看作“指示性语句”，它的作用是指明类中引用的某个类的全称。第1行就指明了第13行所使用的Graphics类是java.awt包中的Graphics类，而不是其它的Graphics类。
+第2至8行是文档注释，其主要内容是对类的功能介绍，还有版本信息和作者信息。
+由于一个矩形对象的定义需要有四个字段：左上的纵、横坐标以及宽度和高度，所以在第36行至38行增加了y，w，h三个整型字段。
+第10至16行是方法drawMySelf()，它的功能是在屏幕上将本对象显示出来。
+第13行是方法定义的开始，该方法有一个Graphics类型的参数g。Graphics是一个用来处理图形操作的类，该类型的对象(可以理解为“画笔”)可以画字符串、画线和其它图形(如有必要，请参考API文档了解细节)。读者现在不必理解这个类的对象从何处来[ DrawingPanel类的对象在向Rect对象发drawMyself消息时传入Graphics对象。]，了解g指向的对象可以画出图形就可以了。
+第14行，向g对象发送drawRect消息(调用drawRect(Graphics g)方法)，要求其根据x，y，w和h四个数据将对象以矩形的方式“画”在屏幕上。
+用户每一次点击“移动”按钮，Rect对象首先收到改变左上角坐标数值的消息，还会收到一个drawSelf消息，即通知它再一次画出自己。
+第15行是方法定义的结束符号。
+01 import java.awt.Graphics;
+02 /**
+03  * Rect类表示一个矩形实体。
+04  * 实现了根据坐标及宽度和高度画出自己、四个方向移动的功能。
+05  * 上、左侧坐标从20开始，下、右侧无限制。
+06  * @version 1.0 
+07  * @author 13706415413@126.com
+08  */
+09 public final class Rect {
+10      /**
+11       * 画出自己：根据自身坐标、高度和宽度在屏幕上画出自己
+12       */
+13      public void drawMyself(Graphics g){
+14         g.drawRect(this.x, this.y, this.w, this.h);
+15      }
+16
+17      /**
+18       * 将自己右移
+19       */
+20      public void moveRight() {
+21          this.x += 5;
+22      }
+23
+24      public void moveLeft() {
+25          this.x -= 5;
+26      }
+27
+28      public void moveUp() {
+29          this.y -=  5;
+30      }
+31
+32      public void moveDown() {
+33          this.y += 5;
+34      }
+35      private int x=20;//左上角的横坐标，新建对象的初始值为20
+36      private int y=20;//左上角的纵坐标，新建对象的初始值为20
+37      private int w=300;//宽度，新建对象的初始值为300
+38      private int h=200;//长度，新建对象的初始值为200
+39 }
+类 55 完整的Rect.java 
+就像一个演员们要在舞台展现自己一样，类 55需要在一个平台中测试。如图 53所示，平台共包含12个class文件。
+
+图 53 平台中有12个class文件
+将平台中的所有的类复制到一个文件夹中(本教材为“c:\d\basicGui”)，在该文件夹中创建类 55，编译成功后，会替换平台中的Rect.class。再次运行Starter(图 54)，平台中展示的矩形已经是读者自行编写的Rect类了。
+
+图 54 在实验平台中测试Rect.java
+读者可以修改本类中的字段初值、修改移动的变化量、甚至于使用Graphics类对象画出图片，体会对Rect类各成员的作用。需要注意的是，在现阶段的平台依赖Rect类，故类名“Rect”是不能改变的。
+5.1.6.行为和状态
+一个表达实体的类[ 一般不需要main方法。]中有两种不同的成员：
+方法：用来表示行为。公共方法的名字用来描述和外界的通讯方式，方法的内容用来描述行为的责任。比如，矩形有“左移”、“右移”行为，汽车会有“行驶”、“停车”、“加油”等行为。
+字段：用来表示状态。字段在描述行为时起辅助作用。比如，“画出自己”这一行为是必须使用坐标和宽、高的。而“左移”、“右移”要依赖x坐标。汽车的“加油”行为可能会改变油料的数量。
+但并非所有方法都会涉及到字段。但是，一个字段至少要在一个方法中被使用。
+一般情况下，字段不能对外暴露，通常设置为private，以防止外部组件直接对它进行访问。如果一个字段允许外部组件访问，应为其编写一个方法，以返回值的形式被外界读取。
+而方法是向外界提供服务的，一般会设置为public。 如果一个方法仅在本类中使用，它应被设置为private。
+5.1.7.局部变量和实例变量
+Java有多种形式的变量。在方法中声明的变量被称为局部变量(包括参数)，它的作用域是声明它的方法。类 56中，第3行声明的rect、第7行声明的rect2和第8行声明的rect3，都是局部变量。参数在方法头部声明，也属于局部变量，仅在该方法中有效。
+01	public final class RectTest {
+02		public static void main(String[] args) {
+03			Rect rect = null;//声明一个Rect类型的变量
+04			rect = new Rect();//创建一个Rect对象，令rect指向它
+05			//通知rect对象右移
+06			rect.moveRight();
+07			Rect rect2 = new Rect();//创建一个Rect对象，令rect2指向它
+08          Rect rect3 = rect2;  //新建一个变量rect3并指向rect2指向的对象
+09		}
+10	}
+类 56 RectTest.java
+类片段 51中的setX()方法中，第1行以参数形式声明了局部变量x，第2行定义了局部变量step。在setY()方法中，声明局部变量y，定义了局部变量step。两个方法中的step尽管名称相同，但是完全独立的。
+1 	public void setX(int x) {
+2 		int step = 1;
+3 		this.x = x;
+4 	}
+5 
+6 	public void setY(int y) {
+7 		int step = 2;
+8 		this.y = y;
+9 	}
+类片段 51 局部变量
+每个对象都是类的一个实例。定义在方法之外的变量被称为实例变量(instance variable)，它在整个类范围内(除静态成员外)都可以被访问。
+类 55中的x、y、w和h都是实例变量，它们的含义是某一个矩形对象的横坐标、纵坐标、宽度和高度，不同的矩形对象的相应字段的值可能是不同的。这些字段处于方法之外，该类的所有的方法都可以访问它们。如x在moveLeft()、moveRight()及drawMyself(Graphics)等3个方法中都有效。
+Rect对象被创建后，对象内部就会为这些变量留出空间。图 55所示的两个对象的x、y、w和h字段分别是独立的，改变其中的一个，不会影响另一个。需要注意的是，private int x = 5; 的含义是：对象创建后，它的x字段被默认地被赋值为5，并不是给类的x字段赋值。
+
+图 55 不同实例(对象)的实例变量可能是不同的
+在方法中，如果没有同名局部变量，引用实例变量时，可以省略this。如类片段 52中的第2行和this.y += 5;是等价的。
+1 public void moveUp(){
+2   y -= 5;
+3 }
+类片段 52 moveUp()方法
+但是，为增强程序的可读性和可维护性，建议使用this.x来引用实例变量。而且，方法内局部变量会覆盖同名实例变量，引用实例变量时省略this会带来隐性错误。类片段 52修改为类片段 53：在使用y之前定义了一个局部变量y。尽管没有修改第3行，但第3行的语义却不再是为实例变量y赋值，而成了为局部变量y赋值。
+1 public void moveUp(){
+2   int y = 2;
+3   y -= 5;
+4 }
+类片段 53 修改后的moveUp()方法
+	类片段 54的第2行使用了规范方式引用实例变量。
+1 public void moveUp(){
+2   this.y -= 5;
+3 }
+类片段 54 moveUp()方法
+如类片段 55所示，新插入的局部变量定义语句没有影响原有语句的主义。
+1 public void moveUp(){
+2   int y = 2;
+3   this.y -= 5;
+4 }
+类片段 55 修改后的moveUp()方法
+实例变量描述对象的状态。如果一个变量仅在一个方法中使用，就不宜声明为实例变量。
+5.2.类、对象和引用
+5.2.1.类与对象
+现实世界中有各种各样的物体，是具体的、唯一的。比如我们在野外观察到的某只老虎，它是具体的、也是唯一的。在任意时刻，它的身高、体重和所处的位置都是具体的。现实世界中的物体被归纳为类型，类型描述了该类型所有物体的共同特征，比如所有的老虎都吃肉、移动。
+类型有明确的数据项，但没有确定的数据值。我们谈到老虎这种类型的动物时，都知道每只老虎都有身高、体重和位置，但老虎这个类型是没有具体的身高、体重和位置等数据的。
+我们可以建立一个Tiger类，定义攻击、移动、睡觉等方法和身高、体重和位置等字段。根据Tiger类创建的对象，可以为它的身高、体重和位置赋值。
+在这个意义上，类相当于印章本身，对象有点像印痕。印章只有一个，它没有具体的颜色、位置。印痕可以无穷多个，有具体的位置和颜色(图 56)。
+
+图 56 印章和印痕
+Java中的对象模拟具体的物体。它在任意时刻都有具体的字段值。Java中的类刻画了对象的类型。类Rect抽取了所有矩形对象的共同特征，比如都可以“移动”、“画出自己”。为了表达移动，它们都要拥有位置数据并可以被改变，即坐标x和y。一个类中，它的字段是没有具体数值的，以它为“模板”创建的对象才有字段值。如某个学生有确定的姓名，但“学生”这一类型是没有具体姓名的。
+类 55中，变量x在声明时给出了初值20，但这并不代表Rect类具有字段值，而是表示新建的Rect对象的x初值为20。如图 57所示，新创建的Rect对象的x字段的初值为20。如某矩形对象开始在（20，20），右移一次后，坐标变为（25，20）。
+
+图 57 创建Rect类对象并通知它右移
+5.2.2.对象和引用(对象变量)
+无人机在空中飞行，操作者不能直接控制它，只能通过遥控器向它发出指令(图 58)。遥控器不是无人机，却是操作者和无人机联系的唯一渠道。
+
+图 58 遥控器和无人机
+类似地，我们会使用某个变量指向某对象，通过这个变量向它指向的对象发送消息。指向对象的变量被称为引用(reference)或句柄(handle)。
+Java虚拟机管理的内存有3个主要部分，分别是方法区 (保存类) 、堆栈区 (或称栈区，保存变量) 和堆区 (保存对象) 。
+类 56的第3行
+Rect rect = null;
+声明了一个对象变量，它暂时不指向任何一个对象，没有数值。这一过程与声明普通变量是相同(如int i = 0;)，它的变量名是rect，类型为Rect。如图 59所示[ 该图以以后涉及的内存相关的图，均为示意图，省略了大量的细节。]，该行操作结果是在堆栈区[ 堆栈区存入数据时，从底部开始，读取时从顶部开始。]创建一个对象变量rect(此时不指向任何对象，即它的值为空)，它只能指向Rect类型[ 第6章以后，还可以指向其兼容类型。]的对象。
+
+图 59 执行第3行后的内存情况
+通过关键字new来创建对象，过程如图 510所示。第4行的语句
+rect = new Rect();
+的执行分为两个步骤。
+(1)首先执行赋值号后面的new方法。如图 510所示，将Rect类加载到方法区[ 图片中空间有限，未显示被加载的Rect类。]，然后根据Rect类在堆区创建一个该类型的对象，该对象占据了堆区从2000号[ 使用带括号的数字表示对象在堆区的地址，以区别一般的数据类型。]内存单元开始的多个连续空间。对象保存所有的字段并用类中定义的初始值作为它的初值，但对象不保存方法信息；
+(2)然后执行赋值操作：将新建对象地址的第一个单元编号“2000”给栈区中的rect赋值。
+
+图 510 执行第4行后内存情况 
+只能通过变量rect来对它所指向的对象发送消息。第6行rect.moveRight()时：向rect指向的对象发送“moveRight”消息。点号“.”前面是消息接受者，后面是消息。
+保存在堆栈区的rect被称为“对象引用”，简称“引用”(本节中沿用通俗说法，称为“对象变量”)，它不是对象本身但代表着对象[ 通俗地讲，引用和对象的关系类似于遥控器和遥控飞机的关系，遥控器不是飞机，却能操纵飞机，而飞机也只能由遥控器来操纵。]。
+该方法执行前内存的状态如图 510所示：对象变量“rect”的值为“2000”，即指向堆区“2000”开始的那个对象。然后执行以下步骤：
+(1)根据对象变量的类型Rect和方法名称moveRight，在方法区中找到方法代码(图 511中箭头指向的方法)；
+(2)moveRight()方法中的“this”的值来自于main方法中，moveRight()方法前面的对象变量“rect”，值为“2000”；
+(3)“this.x”就是“2000”开始的那个对象“x”字段，即“2000”号内存单元；如果是this.y，则指“2001”号内存单元；
+(4)将“x”字段(地址为“2000”内存单元)值增加5。
+上述第(2)-(3)步骤中，RectTest的main方法中“rect”值被传递到了Rect类的moveRight方法的“this”上。由于“this”没有出现在方法名后面的括号里，它被称为“隐式参数”。
+
+图 511 令rect执行moveRight()方法
+第7行创建了另一个对象并令对象变量rect2指向它(图 512)。与上一次创建对象的步骤类似，对象变量“rect2”获取了新建对象所占堆区内存的首地址“2004”。现在堆栈区有两个引用变量，堆区有两个对象。值得注意的是，创建第二个对象时，无须在方法区中再次加载Rect类。
+
+图 512 创建另一个新对象后的内存情况
+多个对象变量可以指向同一对象，第8个语句执行成功后，在堆栈区增加了一个rect3对象变量(没有创建新的对象)，它的值复制了rect2的值，即2004(图 513)。由于rect2和rect3的值是相同的，故它们指向了同一个对象。
+
+图 513 rect3指向rect2指向的对象
+一个对象变量在某时刻只能指向一个对象，如果执行以下语句
+rect = rect2;
+对象变量rect的值则从2000变为2004，它也指向了2004单元开始的对象(图 514)。此时，rect、rect2和rect3都指向了同一对象（即2004开始的对象），通过三个引用发送消息都会操作该对象。
+
+图 514 三个对象变量全部指向同一对象
+两个对象变量之间有两个层面的“相等”关系：一是两个对象变量指向了同一个对象，这种关系用“= =”表示，如rect= =rect2的运算结果为true。二是两个对象变量指向两个对象的情况下，目标对象的某些字段值相等，这一关系将在后面的章节中进行讨论。
+5.2.3.匿名对象
+图 514中，2000单元开始的对象不再有任何引用指向它，成为匿名对象。它再没有接受消息的机会。创建一个对象，但不立即使用任何引用指向它，会直接产生一个匿名对象。因为没有在堆栈区创建指向它的引用变量，它只能在创建时接受一次消息(
+图 515)。
+
+图 515 创建匿名对象
+Java虚拟机会在适当的时候释放匿名对象所占的内存空间，但这一过程无需开发者介入。
+5.2.4. “= =”运算
+而对象变量指向的是复杂数据，“==”无法表达“相等”，只能表达“是否指向同一对象”。对普通类型的数据来讲，“==”可用来比较两个数据是否相等，如“1==1”值为true，而“1==2”的值为false。
+类 57中，第03-05行表明：对于int型数据，值相等时，“==”运算返回true，值不相等时返回false。
+浮点型或双精度数据运算时可能会产生误差。如第07行的结果可能是“0.0600000001”，造成第09行返回“false”这一不合常理的结果。常用双方差值绝对值和一个误差标准比较的方式来判断浮点型数据是否相等。第10行中，误差标准是0.001，如果绝对差值小于它，则认为是相等的。
+两个变量指向同一个对象的情况下，“==”返回true，否则返回false。第12-13行各创建了一个对象，第14行令r1的值赋给r3。尽管r1和r2的各字段值均相等，但它们却不是指向同一个对象，故第16行输出false。由于r1和r3指向同一个对象，故第17行返回true。而r2和r3不指向同一对象，故第18行也返回false。
+01 public class IdenticalTest {
+02     public static void main(String[] args) {
+03         int age = 20;
+04         System.out.println(age == 20); //输出true
+05         System.out.println(age == 19); //输出false
+06 
+07         double expected = 0.06;//期望值
+08         double actual = 0.05 + 0.01;//实际运算值
+09         System.out.println(expected == actual);//输出false
+10         System.out.println(Math.abs(expected-actual)<0.001); //输出true
+11 
+12         Rect r1 = new Rect();//r1指向新建对象
+13         Rect r2 = new Rect();//r2指向新建对象
+14         Rect r3 = r1; //r3指向r1指向的对象
+15 
+16         System.out.println(r1 == r2); //输出false
+17         System.out.println(r1 == r3); //输出true
+18         System.out.println(r2 == r3); //输出false
+19     }
+20 }
+类 57 不同类型数据的比较
+
+5.3.字段和方法的可见性
+5.3.1.封装私有字段
+所有的公共方法定义了该类型对象所能提供的全部服务，即接口(interface)。如图所示，Rect类(类 55)的接口有五个方法组成，其它类不能访问五个方法之外的成员。
+
+Rect类(类 55)还定义了x字段，RectTest类(类 56)中，是否可以访问rect对象的x字段呢？在类 56的第7行后面增加一行语句来输出rect对象的x字段值。
+System.out.println(rect.x);
+很遗憾，新增加的语句不能通过编译，出错信息如图 516所示。
+
+图 516 访问对象字段时出现的编译错误
+出错信息会注明出错的文件名、行号、错误类型及出错点。图 516显示：在RectTest类的第8行出现了“可见性访问权限”错误[ 因翻译的原因，该信息并未表达清楚。]，出错点为rect.x。
+类 55中，Rect类的字段x被private修饰，将其可见性设置为“私有”。私有意味着其它类不能访问它(也称“不可见”)，而RectTest (类 56)的main方法试图使用“rect.x”访问Rect(类 55)的对象的x字段，故不能通过编译器检查。
+如果使用public修饰符来修饰字段，则它的可见性设定为“公共”，可以方便其它类的方法对它进行访问，但这一权力可能被误用甚至被滥用。
+比如RectTest中可能不慎出现这样的语句：
+rect.x = -100;
+由于坐标值只能为非负数，这样的操作明显违反正常的业务逻辑，会出现不可预料的结果。
+字段既要保持私有状态，又要允许其他类对其进行合理的访问。类使用公共方法封装私有字段，来完成对私有字段的读、写操作，这些方法被称为读写器方法。命名规则：set和get开头，字段名在后，如getX(int)、setY(int)。
+现在，我们为其接口增加两个方法，负责读写x字段，如类片段 56所示。
+第36-38行定义了一个返回x字段值的方法getX()。第一个关键字是public，它可以被任何类使用，第二个关键字int 表示它的返回值是一个整型数值。第37行的关键字return表示返回，x是要返回(给调用者)的数据。RectTest类的main方法中的语句rect.getX()会返回rect对象的x字段的当前值，可以使用以下语句打印rect对象的x字段值：
+System.out.println(rect.getX());
+字段私有化还有一个更重要的作用：防止非法赋值。第40-45行是一个设置字段x的公共方法，它的作用是为对象的x字段赋值。它没有返回值，但有一个int类型的参数。
+Rect类还定义了一个名为x的实例变量，它必须使用this把自己与局部变量区别开。
+执行rect.setX(int x)方法时，会首先检查参数x，如果它大于或等于0，则为实例变量x赋值。
+36 	public int getX() {
+37 		return this.x;
+38 	}
+39 
+40 	public void setX(int x) {
+41 		//x坐标仅接受正数
+42 		if(x>0) {
+43 			this.x = x;
+44 		}
+45 	}
+46 
+47 	private int x=20 ;//左上角的横坐标，初始值为20
+48 	private int y=20 ;//左上角的纵坐标，初始值为20
+49 	private int w=300;//宽度，初始值为300
+50 	private int h=200;//长度，初始值为200
+51 }
+类片段 56 增加存取器方法
+如果有些对象的私有字段不能执行写操作，就不定义set方法，使之成为一个只读字段。
+5.3.2.字段和属性
+set 和 get方法为访问对象的字段提供了接口，这些方法也形成了对象的属性。 getAge方法定义了一个名为“age”的可读属性，而 setAge方法定义了同名的可写属性。一般情况下，去除前置的set或get，将方法名余下的部分的首字母改为小写，就是对象的属性。属性不一定与字段完全对应。
+类 58有sex、givenName和familyName等3个字段。它的get方法形成了3个属性： sex、chnName和westernName。
+01 public final class Student {
+02     public String getSex() {
+03         return sex;
+04     }
+05     public String getChnName() {
+06         return this.familyName+" " + this.givenName;
+07     }
+08     public String getWesternName() {
+09         return this.givenName+" " + this.familyName;
+10     }
+11     private String sex = “M”;
+12     private String givenName = “Bill”;
+13     private String familyName = “Gates”;
+14 }
+类 58 Student.java
+5.3.3.私有方法
+一般情况下，字段是私有的，方法是公共的。有时对象的行为不必或不能被外界使用，这样的方法应被声明为private方法，以防止意外地被调用。
+现在我们尝试定义一元二次方程类，命名为Equation。
+首先，它应有公共方法接受消息：接受参数setEquation()、提供解getRoot()。系数是对象固有的字段，是需要保存的数据，故设置三个实例变量a、b、c。
+setEquation的功能是接受3个值，为三个系数赋值。
+getRoot的功能是：返回根的情况，可能是一个根、两个根或者没有根。通过三个系数得出方程根，并以String的形式返回消息的发送者。
+考虑到“获得判别式”这一功能相对独立，将它设计为一个独立的私有方法。像私有字段一样，私有方法只能在本类中可见。这样处理，既可以提高易读性，又不会被意外调用。Equation类如类 59所示。
+01 public final class Equation {
+02     /**
+03      * 设置方程系数
+04      * @param a 二次项系数
+05      * @param b 一次项系数
+06      * @param c 常数项系数
+07      */
+08     public void setEquation(double a, double b, double c) {
+09         this.a = a;
+10         this.b = b;
+11         this.c = c;
+12     }
+13 
+14     /**
+15      * 根据判别式生成三种不同的对根的描述
+16      * @return 方程根的描述
+17      */
+18     public String getRoot(){
+19         //获得判别式的值
+20         double delta = this.getDelta();
+21         //对根的描述
+22         String root = null;
+23         if(delta > 0){
+24             //两个实根
+25             double x1 = (-this.b + Math.sqrt(delta))/(2*a);
+26             double x2 = (-this.b - Math.sqrt(delta))/(2*a);
+27             root = "x1=" + x1 + ", x2=" + x2;
+28         }else if(delta == 0){
+29             //一个实根
+30             double x = (-this.b - Math.sqrt(delta))/(2*a);
+31             root = "x1=x2=" + x;
+32         }else{
+33             //没有实根
+34             root = "no real roots";
+35         }
+36         return root;
+37     }
+38 
+39     /**
+40      * 根据系数返回判别式的值
+41      * @return 判别式的值
+42      */
+43     private double getDelta(){
+44         return (this.b * this.b - 4 * this.a * this.c);
+45     }
+46 
+47     private double a;//二次项系数
+48     private double b;//一次项系数
+49     private double c;//常数项系数
+50 }
+类 59 Equation定义了一个私有方法
+
+
+
+5.4.元素为对象变量的数组
+数组本身是一个对象，存放在堆内存中。如果数组的元素是基础类型，则保存数值本身；如果是对象，则保存该对象引用。
+创建数组对象后，不同类型的数组元素的默认值是不同的。如，new int[3]会在内存中分配3个单元，默认值为 “0"。new double[4]分配4个内存单元，默认值为“0.0"。new Rect[2]在内存中分配的2个单元，默认值为“null"。
+类 510是一个测试数组的类。为了运行它，需要Rect类中(类 55)在添加getY()方法，用来返回对象的y值。
+01 /**
+02  * @author STGLJY@126.COM
+03  * @version 1.0 
+04  */
+05 public class ArrayTest {
+06     public static void main(String[] args) {
+07         //整型数组保存年度
+08         int[] years = new int[2];
+09         int year1 = 2017;
+10         int year2 = 2018;
+11         years[0]=year1;
+12         years[1]=year2;
+13         years[0]=2027;
+14         years[1]=2028;
+15         System.out.println(year1+","+year2);
+16         System.out.println(years[0]+","+years[1]);
+17 
+18         //Rect类型数组保存两个矩形
+19         Rect[] rects = new Rect[2];
+20         Rect rect1 = new Rect();
+21         Rect rect2 = new Rect();
+22         //第0号元素指向rect2指向的对象
+23         rects[0] = rect2;
+24         rects[1] = rect1;
+25         System.out.println(rects[0].getY()+","+rects[1].getY());
+26         //令第0号元素指向rect2指向的对象下移
+27         rects[0].moveDown();
+28         rects[1].moveUp();
+29         System.out.println(rects[0].getY()+","+rects[1].getY());
+30         System.out.println(rect2.getY()+","+rect1.getY());
+31     }
+32 }
+类 510 对数组元素的测试
+类 510中第8行创建一个拥有2个元素的整型数组对象，如图 517所示，数组的变量名years(值为2000)保存在堆栈区[ Java虚拟机内存中的方法区来保存方法，堆栈区保存局部变量，堆区保存对象。]内存中，而它指向的对象保存在堆内存中2000开始的两个单元中。第9行和10行定义了两个局部变量 year1和year2，存放在堆栈区。第11-12行，使用year1和year2对数组元素分别赋值，此时数组元素内容分别变为“2017”和“2018”。第13-14行，使用“2027”和“2028”对数组元素再次赋值，此时数组元素内容分别变为“2027”和“2028”。值得注意的是，堆栈区中的year1和year2的值没有受到影响。第15行输出了整型变量year1和year2的值，分为2017和2018。第16行输出了years数组的两元素的值，分别为“2027”和“2028”。
+
+
+图 517 程序运行结束前内存状态示意
+第19行创建了一个Rect类型的数组对象，变量rects在栈内存中，对象本身在堆内存中获得了从“2002”开始两个连续的单元。此时数组的两个元素没有指向任何对象。
+第20行创建了Rect类型的对象，在堆内存中获得了从“2004”开始的4个连续的单元，而栈区的变量rect1也获得值“2004”。21行创建了另一个Rect类型的对象，在堆区分配了“2008”号开始的4个内存单元，栈区的变量rect2也获得了值“2008”。
+第23行中，Rect类型的数组对象的第一个元素指向了rect2所指向的对象—“2008”开始的对象。第24行中，Rect类型的数组对象的第二个元素指向了rect1所指向的对象—“2004”开始的对象。第25行先后输出了数组的第一个元素和第二个元素的getY方法返回值，均为初始值20。
+第27行中，令Rect类型的数组对象的第一个元素(即rect2指向的对象下移，“2008”开始的对象)，使该对象的y字段值增加5，成为25。同理，第28行，使“2004”开始的对象的y字段值减少了5，成为15。
+第29行，先后输出了数组的第一个元素和第二个元素的getY方法返回值，分别为25和15。第30行，先后输出了rect2和rect1指向的对象。可以看到两次输出的结果是相同的(图 518)。因为数组的第一个元素指向的对象和rect2指向的对象，是同一个对象。数组的第二个元素和rect1指向了同一个对象。
+
+图 518 运行结果
+类 511进一步展示了对象数组的用法。
+01 public final class ArrayTest2 {
+02     public static void main(String[] args) {
+03         //创建以Rect数组对象(三个元素的初始值指向null)，由变量rects指向。
+04         Rect[] rects = new Rect[3];
+05         Rect rect1 = new Rect();//创建Rect类型的对象，由rect1指向
+06         rects[0] = rect1;// rects指向的数组的第0个元素指向rect1指向的对象
+07         System.out.print(rect1.getX() + "\t");//向rect1指向的对象发getX消息
+08         System.out.println(rects[0].getX());//向rects[0]元素指向的对象发getX消息
+09 
+10         rect1.moveRight();//向rects[0]元素指向的对象发moveRight消息
+11 
+12         System.out.print(rect1.getX() + "\t");
+13         System.out.println(rects[0].getX());
+14 
+15         rects[1] = new Rect();// rects指向的数组的第1个元素指向新建的Rect类型的对象
+16         rects[2] = new Rect();
+17         //向rects数组的所有元素指向的对象发moveRight消息
+18         for(int i = 0; i<rects.length; i++){
+19             rects[i].moveRight();
+20         }
+21         //向rects数组的所有元素指向的对象发getX消息
+22         for(int i = 0; i<rects.length; i++){
+23             System.out.println(i+"\tx=" + rects[i].getX());
+25         }
+26     }
+27 }
+类 511 对对象数组进一步测试
+运行结果如图 519所示。创建了3个对象，其中rect1和rect[0]指向了同一个对象。三个对象的x初值均为20，rect1和rect[0]分别执行了一次moveRight()，使x变成了30。而其它两个对象以数组元素rects[1]和rects[2]的名义分别执行了一次moveRight()，使x变成了25。
+
+图 519 ArrayTest2运行结果
+5.5.方法调用
+对象的方法用来接受用户或自身的消息并执行相应的功能，向一个对象发送消息也称为方法调用。方法开始执行时，程序控制权会从调用者转移到方法，方法执行结束后，程序控制权会返回它的调用者。一个方法中，可以向另一对象发送消息。每一次有方法被调用时，JVM会在栈区创建一个栈帧(Stack Frame)来存储该方法的局部变量和参数(参数也是一种局部变量)，方法执行结束，对应的栈帧在栈区中删除。由于不同的方法调用(或同一方法的不同调用)会对应着不同的栈帧，不同方法中声明局部变量不会相互影响。
+5.5.1.从内存角度观察方法调用
+堆栈最上方的栈帧被称为活动栈帧，只有活动栈帧才可以被JVM(Java virtual machine)操作。图 520展示了main方法调用B方法，B方法调用C方法的执行过程。
+(1)执行main方法，会在堆栈区添加一个main栈帧，main为活动栈帧，JVM操作main帧；
+(2)执行B方法，会在堆栈区添加一个B栈帧，B为活动栈帧，当前方法为B，JVM操作B帧；
+(3)执行C方法，会在堆栈区添加一个C栈帧，C为活动栈帧，当前方法为C，JVM操作C帧；
+(4)C方法执行结束，返回B方法，C帧被删除，B为活动栈帧，当前方法为B，JVM操作B帧；
+(5)B方法执行结束，返回main方法，B帧被删除，main为活动栈帧，当前方法为main，JVM操作main帧。
+综上所述，JVM先后在栈区建立三个栈帧[ 递归指某方法调用自身，但实际上每次调用都为该方法创建不同的栈帧，因此可以理解为不同的方法调用。]。每个方法开始执行时，会在活动栈帧中创建局部变量，当某方法执行完成时，它对应的栈帧将从堆栈顶部删除，其中的局部变量自动消失。该方法的调用者栈帧成为活动栈帧。
+
+图 520 方法调用时顶部栈帧的变化
+为了说明参数传递的过程，将Rect类简化并改造为如类 512所示的形式。
+01 public final class Rect {
+02     public int getX() {
+03         return this.x;
+04     }
+05     public void setX(int x) {
+06         int y = 30;
+07         x++;
+08         System.out.println("x, y in Rect#setX = " + x + ", " + y);
+09         this.x = x;
+10     }
+11     private int x=20;//左上角的横坐标，初始值为20
+12     private int y=20;//左上角的横坐标，初始值为20
+13 }
+类 512 改造后的Rect
+利用ParamTest (类 513)来测试它。如图 521所示，ParamTest的main方法开始执行时，JVM在堆栈区创建了第一个栈帧：main栈帧(作为当前唯一的栈帧，它是活动栈帧)。
+01 public final class ParamTest {
+02     public static void main(String[] args) {
+03         //声明一个Rect类型的变量,令其指向一个新建对象
+04         Rect rect = new Rect();
+05         int x = 10;
+06         int y = 40;
+07         //打印x的值
+08         System.out.println("x in main = " + x);
+09         //通知rect对象执行setX(int)消息
+10         rect.setX(x);
+11         //打印局部变量x和y的值
+12         System.out.println("x, y in main = " + x + ", " + y);
+13         //打印rect的x属性值
+14         System.out.println("x of rect in main = " + rect.getX());
+15     }
+16 }
+类 513 main 方法
+为了节省篇幅，下面的图示中删除了部分输出语句。ParamTest的第4行在堆区创建了一个Rect对象，并在main栈帧中声明了变量rect指向新建对象。第5-6行在main栈帧定义了值为10的局部变量x和值为40的局部变量y。如图 521所示，堆区有一个对象，栈区中main栈帧中有该方法的局部变量rect=(2000)、x=10和y=40。第08行，执行打印语句时，输出了当前(main)栈帧中局部变量x的值10。
+
+图 521 执行ParamTes的main方法4至6行时的内存情况
+ParamTest (类 513)的第10行向rect对象发出了setX(int)消息，JVM创建新的栈帧—setX栈帧。main栈帧转变为非活动栈帧，main方法将控制权切换到Rect(类 512)的setX(int)方法。方法调用传递了两个参数：
+值为10的显式参数传递给Rect(类 512)的setX(int)方法的x；
+值为2000的引用作为隐含参数传递给ParamTest (类 512)的setX(int)方法中的this。
+Rect(类 512)的第5行中的方法头声明了局部变量x，并接受参数10。如图 522所示， setX栈帧来保存setX(int)方法的局部变量，该栈帧有变量x。
+
+图 522 执行ParamTest的main方法第10行和Rect的setX方法第5行时的内存情况
+如图 523所示，Rect(类 512)的第6行定义了局部变量y并赋值为30、第8-9行输出当前栈帧的x和y的结果分别为10和30。此时，main栈帧不在栈顶，它的局部变量x、y和rect不可访问。尽管在栈区有两个x、两个y局部变量，但分别属于不同的栈帧，是完全不同的变量。
+
+图 523 执行Rect的setX方法第6行时的内存情况
+Rect(类 512)第7行令局部变量x自增。如图 524所示，活动栈帧的x从10变为11。
+
+图 524 执行Rect的setX方法第7行时的内存情况
+由于setX栈帧中的this指向堆区中2000开始的对象(即在main栈帧中rect指向的对象)。所以，Rect(类 512)的第9行用局部变量x(值为11)将堆区中 “2000”开头的对象的x字段值赋值。如图 525所示，该对象的x字段值从20变为11。
+Rect的setX(int)方法结束。
+
+图 525 执行Rect的setX方法第9行时的内存情况
+setX方法结束后，它对应的栈帧从栈区清除 (图 526)。ParamTest (类 513)的main方法重新成为活动方法，其栈帧也相应地成为活动栈帧。第12行打印局部变量x和y的值，结果是10和40。 
+
+图 526 执行ParamTest的main方法第12行时的内存情况
+如果main方法中又调用了其它方法，则会有新的栈帧活动栈帧(main栈帧成为非活动栈帧)。栈帧是相互独立的，而且JVM仅能操作处于顶部的活动栈帧—这是局部变量允许重名的原因。
+
+
+5.5.2.参数传递
+方法调用过程中，调用者方法通过参数(实际参数)向被调用者方法的参数(形式参数)传递数据，后者的参数以赋值的形式接收参数值。两个参数相互独立，被调方法中形式参数改变，不会影响实际参数。
+如果参数是简单类型的数据，传递的是“值”。
+ParamTest (类 513)中的第10行rect.setX(x)中的实际参数x是整型数据。Rect(类 512)中的第5行声明的形式参数x接受了实际参数(值从调用者方法复制了被调方法中)。在Rect(类 512)中，参数x的值被修改，但方法调用结束后，main方法中的实际参数x仍然保持原来的值。
+如果参数是引用，传递的也是值。
+如类 514所示，第3行(main方法)使rect指向新创建的Rect对象。第4行输出该对象x属性值，结果为初始值20。第5行以rect为参数调用静态方法ArgAndReturnTest的zeroRect(Rect)方法[ 静态方法的调用规范为：类名.方法名。]。
+第12行(zeroRect(Rect)方法)声明的Rect类型的参数rectToZero，会接受rect的值(地址从调用者方法中复制到被调用方法中)。在这个意义上，传递是引用值，而不是对象本身(对象在堆区)。参数传递的结果是：形式参数和实际参数指向了同一个对象。
+第13行令rectToZero调用setX(int)方法，将该引用指向的对象的x属性设置为0。方法运行结束。
+第6行(main方法)输出置零后的rect的x属性值，结果为0。
+01 public class ArgAndReturnTest {
+02     public static void main(String[] args) {
+03         Rect rect = new Rect();
+04         System.out.println("in main method, rect.x before zeroing = "+rect.getX());
+05         ArgAndReturnTest.zeroRect(rect);
+06         System.out.println("in main method, rect.x after zeroing = "+rect.getX());
+07         Rect rect2 = ArgAndReturnTest.getRect();
+08         System.out.println("in main method, rect2.x before setting = "+rect2.getX());
+09         rect2.setX(100);
+10         System.out.println("in main method, rect2.x after setting = "+rect2.getX());
+11     }
+12     private static void zeroRect(Rect rectToZero){
+13         rectToZero.setX(0);
+14     }
+15     private static Rect getRect(){
+16         Rect rect = new Rect();
+17         System.out.println("rect2.x in getRect method = "+rect.getX());
+18         return rect;
+19     }
+20 }
+类 514 参数和返回值测试
+
+5.5.3.返回值
+如果一个方法的返回值是简单类型的数据，该数据常量不会被改变。但是，如果返回值是指向对象的引用，该返回值指向的对象有可能被改变。
+如类 514所示，第7行(main方法)执行赋值号右侧的部分，调用getRect()方法，程序进入第15行(getRect()方法)，该方法没有声明参数，其返回值类型为Rect。
+第16行(getRect()方法)创建了一个新的Rect对象，第17行打印该对象的x属性值，结果为20。第18行结束方法并将指向该对象的引用作为返回值。程序返回main方法。
+第7行(main方法)执行赋值号左侧的部分，令rect2指向返回值指向的对象(getRect()方法中创建的对象)。
+第8行打印从方法中返回的对象的x属性值，结果为20。
+第9行将rect2指向的对象的x属性值设置为100。
+第10行打印设置后的rect2指向的对象的x属性值，结果为100。
+请读者自行画出内存图变化情况。
+如果返回值是一个对象引用，令这个返回值执行方法，
+如果一个方法返回一个对象的引用，那么在方法外部对该引用所指向的对象进行修改会影响方法内部的对象。
+01 /**
+02  * @author tg.si@188.com
+03  * @todo
+04  * @since 2023/9/18 21:42
+05  */
+06 //如果一个方法返回一个对象的引用，那么在方法外部对该引用所指向的对象进行修改会影响方法内部的对象。
+07 class Rect {
+08     public int x = 10;
+09 }
+
+10 class RectMaker{
+11     static Rect r = new Rect();
+12     public static Rect getRect(){
+13         return r;
+14     }
+15 }
+
+16 class IntMaker{
+17     static int r = 5;
+18     public static int getInt(){
+19         return r;
+20     }
+21 }
+
+
+22 public class RetTest {
+23     public static void main(String[] args) {
+24         //通过方法返回值，获得一个整数
+25         int i1 = IntMaker.getInt();
+26         System.out.println("Value before modification: " + i1);
+27         i1 = 100;
+28         int i2 = IntMaker.getInt();
+29         System.out.println("Value before modification: " + i2);
+30         //结论：返回值不是对象时，对返回值进行修改，不影响下一次获取正确的返回值。
+
+31         //通过方法返回值，获得一个对象
+32         Rect r1 = RectMaker.getRect();
+33         System.out.println("Value before modification: " + r1.x);
+34         //改变这个返回值对象
+35         r1.x = 20;
+36         //通过方法返回值，重新获得一个对象
+37         Rect r2 = RectMaker.getRect();
+38         //返回值居然和上次的返回值不同？
+39         System.out.println("Value after modification: " + r2.x);
+40         //结论：返回值的是同一个对象，只是RectMaker方法中的Rect对象被改变了。
+41         //如果不想发生这种情况，getRect应返回一个克隆的对象。这样，对返回值的修改，就不会影响下一次的返回值了。
+42     }
+43 }
+
+5.6.对象初始化
+5.6.1.构造器
+为了简化程序，本章的一些类(类 55)的字段值都定义了数值。但实际上，更常见的方式是在创建对象后再对其字段进行赋值，即对象初始化。将类 55的第35-38行字段值删除，不再定义字段的初始值。
+如果实例变量没有设置初值，对象创建成功后，会以下列规则为该对象的字段初始化：
+long、int、short、byte类型字段的值为0；
+double、float类型字段的值为0.0；
+boolean类型字段的值为false；
+char类型字段的值为空字符’’；
+引用类型字段的值为null。
+类 515的第4行创建了对象，第5-6行来设置它的字段。
+01	public final class DrawingTest {
+02		public static void main(String[] args) {
+03			// 创建矩形对象
+04			Rect rect = new Rect();
+05           rect.setX(5);
+06           rect.setY(10);
+07       }                                                                                                                                                                                                 
+08  }
+类 515 创建对象后立即初始化
+Rect类的x、y字段都是int类型，故类 515的第4行执行结束后，rect指向的对象的x、y字段都是0。只有第5-6行执行完毕后，该对象才获取了有意义的初始值。
+Java提供了“构造器”这种特殊的方法。创建对象后 (new操作符用来创建对象，而不是构造器来创建对象)，构造器会自动执行。继方法、字段之后，构造器是我们接触的第3种Java类成员。
+类 516(省略了字段声明)中定义了一个构造器，它声明了两个整型参数。
+1	public final class Rect {
+2		public Rect(int x, int y) {
+3			this.x = x;
+4			this.y = y;
+5		}
+6	}
+类 516 定义了两个参数的构造器
+类 518的第4行，在创建对象后，自动调用了类 516中的构造器，为对象的两个字段赋值。如果在类 518中使用
+new Rect();
+则抛出图 527所示的异常信息。
+
+图 527 构造器与给定的类型不匹配
+类中没有构造器定义的话，会默认地拥有一个没有参数的构造器(称为默认构造器)—new Rect()会调用该默认构造器。但是，显式(explicitly)定义构造器后，该类则不再拥有默认构造器，故出现异常信息。而类 517的第2-3行显式地定义了无参构造器，则无论是否定义其它构造器，都可以保证new Rect()的正常运行。
+	和方法类似，构造器可以被重载。类 517 重载了三个构造器，第10行调用了另一个构造器。
+01	public final class Rect {
+02		public Rect() {
+03		}
+04		
+05		public Rect(int x, int y) {
+06			this.x = x;
+07			this.y = y;
+08		}
+09		public Rect(int x, int y, int w, int h) {
+10			this(x, y);
+11			this.w = w;
+12			this.h = h;
+13		}
+14	}
+
+类 517 拥有两个构造器的Rect类
+类 518中，第4行创建对象后，自动调用两个参数的构造器。第5行创建对象后，自动调用无参的构造器。第6行创建对象后，自动调用四个参数的构造器。
+01	public final class DrawingTest {
+02		public static void main(String[] args) {
+03			// 创建矩形对象，自动进行初始化
+04			Rect rect = new Rect(5,10);
+05			Rect rect = new Rect();
+06			Rect rect = new Rect(5,10,20,20);
+07       }
+08  }
+类 518 使用构造器对对象进行初始化
+构造器的功能和结构都与方法的相似，它可以有参数，可以重载，但区别也十分明显。
+它与类同名；
+它没有返回值，也没有void关键字；
+它在对象创建成功后被自动调用；
+它只能被另一个构造器调用，其它方法不能调用它。一个构造器只能在第一个语句中调用另一个构造器(类 519)。
+01 public final class Rect {
+02 	public Rect() {
+03 	}
+04 
+05 	public Rect(int x, int y) {
+06 		this.x = x;
+07 		this.y = y;
+08 	}
+09 
+10 	public Rect(int x, int y, int w, int h) {
+11 		this(x,y);//调用两个参数的构造器
+12 		this.w = w;
+13 		this.h = h;
+14 	}
+15 
+16 	private int x = 20;
+17 	private int y = 20;
+18 	private int w = 200;
+19 	private int h = 100;
+20 }
+类 519 构造器
+5.6.2.初始化块
+初始块是一段用“｛”和“｝”包围起来的、但未命名的代码块，它与方法、实例变量和构造器是并列的。它在创建对象之后、调用构造器之前被执行。
+按图 528所示代码修改Rect，第6-8行定义了初始化块。
+
+图 528 初始化块和构造器
+运行类 518，可以发现每次创建对象后调用不同的构造器(图 529)，但是每次都执行初始化块。
+
+图 529 运行结果
+
+
+5.7.对象间的关联
+大多数现实世界中的物体都是直接或间接地相互联系的，在这种联系的支持下，一个物体可以与另一个物体发生交互—通过发送消息。
+“我的电脑”中的“我”与“电脑”有直接联系，在这种关系的支持下，“我”可以向那个“电脑”发消息：“开机”；“我同桌的哥哥的汽车”中的“我”与“汽车”有着间接关系，在这种关系的支持下，可以通过“我”间接地向那个“汽车”发消息：“通过同桌，让他哥哥的汽车启动”。
+以面向对象的观点来观察，世界上的任何物体都是对象。对象a关联对象b，是通过A
+类拥有B类型的实例变量来表达的。
+5.7.1.学生和学生的宠物
+假设一个学生有三个宠物(两只猫和一条狗)。猫有体重和miaow行为(打印出“meow- meow”模拟发声)；狗有体重和bark行为(打印出“woof-woof”模拟发声)。学生有年龄和三个宠物，他会介绍自己的年龄和宠物的情况(图 530)。
+
+图 530 学生对象的自我介绍方法的输出内容
+	首先考虑使用Cat类对两只猫进行建模，猫应有miaow方法和weight字段(类 520)。
+01 public final class Cat {
+02     public Cat(int weight){
+03         this.weight = weight;
+04     }
+05     public String miaow(){
+06         return "meow-meow";
+07     }
+08     public int getWeight() {
+09         return this.weight;
+10     }
+11     private int weight;
+12 }
+类 520 Cat.java
+	用Dog类描述狗这一类型(类 521)。	
+01 public final class Dog {
+02     public Dog(int weight){
+03         this.weight = weight;
+04     }
+05     public String bark(){
+06         return "woof-woof";
+07     }
+08     public int getWeight() {
+09         return this.weight;
+10     }
+11     private int weight;
+12 }
+类 521 Dog.java
+Student类来表达学生这一类实体(类 522)。该类用age字段来表示年龄，用Dog类型的myDog字段作为引用指向某一个Dog对象，用Cat类型的myBigCat字段作为引用指向某一个Cat对象，用Cat类型的myLittleCat字段作为引用指向某一个Cat对象。
+字段age来表达年龄，是Student对象自身的数据。myDog、myBigCat和myLittleCat表达的不是Student自身的数据，而是Student对象与另外三个对象的关联关系。
+01 public final class Student {
+02     public void introduceMyself() {
+03         String output =
+04                 "我今年" + this.age + "岁" +
+05                 ",\n" +
+06                 "我的狗狗的体重是" + this.myDog.getWeight()+
+07                 ",\n" +
+08                 "它叫起来是" + this.myDog.bark() +
+09                 ",\n" +
+10                 "我的大猫的体重是" + this.myBigCat.getWeight()+ "KG" +
+11                 ",\n" +
+12                 "它叫起来是" + this.myBigCat.miaow() +
+13                 ",\n" +
+14                 "我的小猫的体重是" + this.myLittleCat.getWeight()+ "KG" +
+15                 ",\n" +
+16                 "它叫起来是" + this.myLittleCat.miaow() +
+17                 "。";
+18         System.out.println(output);
+19     }
+20     public Cat myBigCat;
+21     public Cat myLittleCat;
+22     public Dog myDog;
+23     public int age;
+24 }
+类 522 Student.java
+	类 522的第2-19行定义了introduceMyself方法，它在控制台输出了该对象的部分信息。第3-17行使用“+”创建了一个String类型的对象，它的内容有常量、年龄字段值和关联字段值代表的对象的方法返回值组成。
+第20-22行的代表关联关系的字段值默认为null，需要在Test类中进行对应赋值(为了简化问题，均声明为公共字段)。
+	类 523是测试类，第3-6行创建了4个对象， 第8行将student对象的age字段值设置为“18”。
+第10行设置了student对象和dog对象的关系：student对象的myDog字段指向dog所指向的对象。第11和12行设置了student对象和两个Cat类型的对象的关系。
+01 public final class Test {
+02     public static void main(String[] args) {
+03         Dog dog = new Dog(5);
+04         Cat bigCat = new Cat(4);
+05         Cat smallCat = new Cat(3);
+06         Student student = new Student();
+07         //student对象的age字段赋值为18
+08         student.age = 18;
+09         //student对象的myDog字段指向dog所指向的对象
+10         student.myDog = dog;
+11         student.myBigCat = bigCat;
+12         student.myLittleCat = smallCat;
+13         //令student对象执行introduceMyself方法
+14         student.introduceMyself();
+15     }
+16 }
+类 523 Test.java
+如图 531所示，Student(类 522)age的字段值保存了实际值“18”，其它字段都保存了目标对象的地址。
+
+图 531 关联情况下的内存示意图
+5.7.2.宠物的主人
+Student(类 522)和Dog(类 521)之间的导航关系是单向的：可以通过前者的对象找到后者的对象(student.myDog)，反之不行—前者知道拥有后者，但后者并不知道它的主人是谁。
+	令Dog拥有对Student的关联关系可使双方形成“双向”关联。类 524中，第25行声明的Student类型的master字段定义了对Student类的关联。	
+01 public final class Dog {
+02     public Dog(int weight){
+03         this.weight = weight;
+04     }
+05     public String bark(){
+06         return "woof-woof";
+07     }
+08     public int getWeight() {
+09         return this.weight;
+10     }
+11     public void introduceMyself(){
+12         String output =
+13                 "我是一只可爱的狗狗，体重" + this.weight + "KG," +
+14                         "我的主人今年" + this.master.age + "岁了，" +
+15                         "\n" +
+16                         "我主人有一只讨厌的大肥猫，体重" +
+17                         this.master.myBigCat.getWeight() + "KG" +
+18                         "\n" +
+19                         "我主人还有一只好猫，体重" +
+20                         this.master.myLittleCat.getWeight() + "KG。";
+22         System.out.println(output);
+23     }
+24     private int weight;
+25     public Student master;
+26 }
+类 524 Dog类拥有对Student类的关联
+Dog类的关联字段使得Dog具备了关联Student的能力，但并意味着所有Dog对象自然关联了某一个Student对象，而需要在其它方法中指定。
+	类 525中，第1-12行与类 523相同，都是创建了四个对象设置并设置了student到三个宠物对象的单向关联。第14行设置了dog对student的关联关系，从而使双方形成了双向关联。第15行中，dog对象作隐含参数被传递到introduceMyself方法(类 524的11-23行)中，第13行中的“this.”即dog对象的wegith字段值(5)；而“this.master.age”则指的dog对象的master字段指向的student对象的age字段值；“this.master.myBigCat.getWeight()”则中向dog对象的master字段指向的student对象的myBigCat字段指向的Cat类型的对象发送getWeight指令。而getWeight方法中的this.weight实际上是“this.master.myBigCat.weight”。
+01 public final class Test {
+02     public static void main(String[] args) {
+03         Dog dog = new Dog(5);
+04         Cat bigCat = new Cat(4);
+05         Cat smallCat = new Cat(3);
+06         Student student = new Student();
+07         //student对象的age字段赋值为18
+08         student.age = 18;
+09         //student对象的myDog字段指向dog所指向的对象
+10         student.myDog = dog;
+11         student.myBigCat = bigCat;
+12         student.myLittleCat = smallCat;
+13         //令dog的master字段值指向student对象
+14         dog.master = student;
+15         dog.introduceMyself();
+16         //令bigCat的master字段值指向student对象
+17         bigCat.master = student;
+18         bigCat.introduceMyself();
+19         //samllCat的master字段值没有指向任何对象，
+20         // 下一语句会抛出“空指针”异常
+21         smallCat.introduceMyself();
+22     }
+23 }
+类 525 Test中设置实际关联
+	从图 531可以观察到，“this.master.myBigCat.weight”实际上经过了3个步骤的访问，其中由于this是“2000”开始的dog对象，故第步(this.master)通过master字段值定位到“2006”单元；第步(this.master.myBigCat)是定位到master(student)的myBigCat字段到“2002”单元；第步(this.master.myBigCat.weight)定位了“2002”单元所在对象的weight单元。
+
+图 532 双向关联情况下的内存情况
+Cat类(类 526)中拥有了对Student类的关联。Test(类 525)的第17行则建立了bigCat向student的关联。值得注意的是，“this.master.myBigCat”仅涉及到dog关联student、student关联bigCat。
+在第21行之前，没有设置smallCat的master字段指向student对象，smallCat.mater指向null。smallCat执行introduceMyself方法(类 526第11-19行)时，可以正确执行第13行，但在第14行会因为this.master=null抛出空指针异常。第 17行也会抛出相同的异常。
+01 public final class Cat {
+02     public Cat(int weight){
+03         this.weight = weight;
+04     }
+05     public String miaow(){
+06         return "meow-meow";
+07     }
+08     public int getWeight() {
+09         return this.weight;
+10     }
+11     public void introduceMyself(){
+12         String output =
+13                 "我是一只人见人爱的喵星人，体重" + this.weight + "KG," +
+14                         "我的主人今年" + this.master.age + "岁了，" +
+15                         "\n" +
+16                         "我主人有一条讨厌的狗，体重" +
+17                         this.master.myDog.getWeight() + "KG。";
+18         System.out.println(output);
+19     }
+20     private int weight;
+21     public Student master;
+22 }
+类 526 Cat类拥有对Student类的关联
+请读者思考，在dog.master.myBigCat.master.myDog代表哪个对象？ 
+
+
+类只能管理自己的属性。
+如Daddy的name，c1, c2，不能管理c1.name和c2.name
+可以Child getC1(), Child getC2()，但不能getC1Name() 
+5.7.3.自身关联
+
+
+
+5.8.类成员(静态成员)
+在生活中，有许多字段不属于个体，却对个体产生影响。在战场上，每个士兵都关注己方人数，但实际上己方人数是不需要保存在个体中的—因为人数不属于个体，而属于全体同类型的成员。顾客进入银行或移动通讯服务商的营业厅，往往需要排队。顾客按下“排队”按钮后，排队机会根据不同业务类型把当前号码打印在一个纸条上，作为顾客的顺序号。打印结束后，排队机会产生新的当前号码，为下一次打印做好准备(图 533)。对任意一种类型的排队业务，都会有两不同类型的号码：某类型的“当前号码”和顾客自己的号码。每个顾客的号码都来自机器的当前号码，但任何一个顾客都只保存自己的号码。
+当时人们谈到某类型排队的顾客“排到几号了” (共有多少取号了) 的时候，指的机器下一次会出现的号码。如果通过顾客来判断的话，必须找到所有顾客中最大的号码。
+
+图 533 排队机和号码条
+5.8.1.类变量(静态变量)
+Java类中可以定义类成员变量，因它用关键字static修饰，也被称为“静态变量或静态字段”。与实例变量不同，它不保存在对象中。Java7及以后的版本中，它们位于堆区中的一个独立区域中，而不是放在方法区中。类变量的命名规则与实例变量相同。
+我们希望创建Cat对象后，自动为该对象的id字段赋值，其值为从1开始的、连续的自然数。
+分析：
+(1)对象的id应为int型字段；
+(2)对象的id字段应来自一个独立的数据，不能来自于其它对象；
+(3)对象的id字段值的来源必须是不断变化的，它不属于Cat类型的任何对象。
+类 527定义了Cat(为了方便操作，所有字段暂时声明为public)，第12行定义了一个公共的类变量(静态变量)currentId，初值为1。第10行声明了一个int型的字段(实例变量)。即使静态变量在实例变量后面声明，前者也会早于后者初始化，即实例变量可以引用在它后面声明的静态变量。
+第02-08行为初始化块。第05行，令当前对象的id字段值接受类变量Cat.currentId的值。第07行，令Cat.currentId自增，为下次赋值做准备。
+01 public final class Cat {
+02     //为对象id赋值
+03     {
+04         //用Cat.currentId(类变量)给新建对象的id字段赋值
+05         this.id = Cat.currentId;
+06         //Cat.currentId自增，为下次赋值做准备
+07         Cat.currentId++;
+08     }
+09     //对象的id
+10     public int id;
+11     //当前id
+12     public static int currentId = 1;
+13 }
+类 527 Cat可以自动获得id
+类 528中，第03行创建了第一个Cat对象，由引用bigCat指向，其中步骤如下：
+在创建对象之前，JVM会把Cat加载到内存，并设置类变量—创建currentId变量并设置初值为1；
+创建Cat对象，对象的各个实例变量(字段)id获得默认值0；
+执行类 527中定义的初始化块；使当前对象的id字段值获得类变量currentId的值，然后令currentId变量自增，使其值为2；
+执行默认构造器(没有动作)。
+第04行打印bigCat指向的对象的id字段值，结果为1。
+第05行打印Cat类的变量Cat.currentId 的值，结果为2。
+和06行创建了第二个Cat对象，由smallCat指向，其中步骤如下：
+由于类已经加载，此时JVM不会把Cat重复加载到内存(类变量currentId值保持为2)，而是直接创建Cat对象，对象的实例变量(字段)id获得默认值0；
+执行类 527中定义的初始化块；使当前对象的id字段值获得currentId变量的值(值为2)，然后令currentId变量自增，使其值为3；
+执行默认构造器(没有动作)。
+第07行打印smallCat指向的对象的id字段值，结果为2。
+第08行打印Cat类的变量Cat.currentId 的值，结果为3。
+第09行打印Cat类的匿名对象的值，结果为3，此时类变量currentId的值已经自增为4。第10行打印Cat类的另一个匿名对象的值，结果为4，此时类变量currentId的值已经自增为5。
+第11行打印Cat类的变量Cat.currentId 的值，结果为5。 
+01 public final class Test {
+02     public static void main(String[] args) {
+03         Cat bigCat = new Cat();
+04         System.out.println("bigCat.id=" + bigCat.id);
+05         System.out.println("Cat.currentId="+Cat.currentId);
+06         Cat smallCat = new Cat();
+07         System.out.println("smallCat.id="+smallCat.id);
+08         System.out.println("Cat.currentId="+Cat.currentId);
+09         System.out.println("new Cat().id=" + new Cat().id);
+10         System.out.println("new Cat().id=" + new Cat().id);
+11         System.out.println("Cat.currentId="+Cat.currentId);
+12     }
+13 }
+类 528 Test.java测试静态数据
+类变量本质上是属于类的，应使用“类名.变量名”的格式来访问，如Cat.currentId。类变量常应用于不需要创建对象的情况。如Math.PI和Math.E是Math类 (图 534)的两个类变量，而Math是没有必要创建对象的。这两个字段不但是静态的，而且是常量，其值不可改变，故字段名完全使用大写字母。
+
+图 534 Math类的两个静态字段
+
+5.8.2.类方法 (静态方法)
+静态字段要尽量使用类方法(静态方法)进行访问。类 529中第14-20行定义针对Cat的currentId字段定义了的set和get方法，请注意静态字段前面要使用类名，绝对不能使用this。
+01 public final class Cat {
+02     //为对象id赋值
+03     {
+04         //用Cat.currentId(类变量)给新建对象的id字段赋值
+05         this.id = Cat.currentId;
+06         //Cat.currentId自增，为下次赋值做准备
+07         Cat.currentId++;
+08     }
+09 
+10     public int getId() {
+11         return this.id;
+12     }
+13 
+14     public static int getCurrentId() {
+15         return Cat.currentId;
+16     }
+17 
+18     public static void setCurrentId(int currentId) {
+19         Cat.currentId = currentId;
+20     }
+21 
+22     //对象的id
+23     private int id;
+24     //当前id
+25     private static int currentId=1;
+26 }
+类 529 Cat和它的类方法
+不需要通过对象提供的行为也应使用类方法，如Math.cos(double)和Math.exp(double)是Math类的两个类方法，这些方法不需要创建对象就能使用。
+5.8.3.类(静态)方法和实例(非静态)方法
+类方法和实例方法有着相当大的区别：
+实例方法可以访问
+o实例变量和实例方法。
+o类变量和类方法。
+类方法可以访问类变量和类方法。
+类方法不能访问实例变量或实例方法。如在main方法中，只能创建对象由rect指向，然后rect.moveUp () 。不能尝试用moveUp()去给一个对象发送消息，因为这会被理解成main方法所在的类中定义的类方法moveUp()，即Rect. moveUp()。
+此外，类方法不能使用this关键字，因为类方法执行时可能还没有创建任何实例。
+5.8.4.静态块
+静态块 (也称为静态子句) 是static修饰的、由“{}”包围的代码块，可用于类的初始化。静态块中的代码只在类加载时执行一次。而每次创建对象时后，都会执行初始化块，用于对象的初始化。
+类 530中，第06-17行定义了静态块，该块在类加载成功后即执行，第13行(读者不必关注静态块中的其它内容)使用从文本文件currentId.txt中获得数字给类变量Cat.currentId赋值(第21行中不再设置初值)。如果在Test类的main方法中创建Cat对象，就会执行第22-28行定义的初始化块为新建对象的id赋值。多次创建对象，会多次执行初始化块。而静态块只执行一次。
+01 import java.io.BufferedReader;
+02 import java.io.FileReader;
+03 import java.io.IOException;
+04 
+05 public final class Cat {
+06     static {
+07         BufferedReader br = null;
+08         try{
+09             br = new BufferedReader(new FileReader("currentId.txt"));
+10             String currentIdFromFile = br.readLine();
+11             System.out.println("currentIdFromFile=" + currentIdFromFile);
+12             //使用从文件中获得的数字给类变量Cat.currentId赋值
+13             Cat.currentId = Integer.parseInt(currentIdFromFile);
+14         }catch (IOException e){
+15             e.printStackTrace();
+16         }
+17     }
+18     //对象的id
+19     public int id;
+20     //当前ID(类变量)，不能设置初值
+21     public static int currentId;
+22     //创建对象后调用本初始化块
+23     {
+24         //用当前ID(类变量)给新建对象的id字段赋值
+25         this.id = Cat.currentId;
+26         //当前ID(类变量)自增
+27         Cat.currentId++;
+28     }
+29 }
+类 530 从文件中获得当前起始id
+在类 530所在文件夹中创建文件currentId.txt并在第1行写入“10”，然后保存文件。运行类 528，可以看到当前id的初始值是文件中保存的10，而不是原来设置的1(图 535)。静态块的第11行的输出结果只出现了一次，说明静态块只执行一次，而且在创建对象之前执行。
+currentIdFromFile=10
+bigCat.id=10
+Cat.currentId=11
+smallCat.id=11
+Cat.currentId=12
+new Cat().id=12
+new Cat().id=13
+Cat.currentId=14
+图 535 当前id的初始值从文件中获得
+
+
+5.9.空中加油—对象关联的应用
+01 public class RefuelingTest {
+02     public static void main(String[] args) {
+03         Fighter fighter = new Fighter();
+04         Tanker tanker = new Tanker();
+05         //加油机和战斗机关联
+06         tanker.fighter = fighter;
+07 
+08         RefuelingTest.show(tanker, fighter);
+09 
+10         tanker.transfer();
+11 
+12         RefuelingTest.show(tanker, fighter);
+13     }
+14     public static void show(Tanker tanker, Fighter fighter){
+15         System.out.println("Tanker's storage=" + tanker.storage);
+16         System.out.println("Fighter's fuel = " + fighter.fuel) ;
+17     }
+18 }
+
+1 public class Fighter {
+2     //接受油料
+3     public void receiveFuel(){
+4         this.fuel += 300;
+5     }
+6     //燃料初值
+7     public int fuel = 100;
+8 }
+
+01 public class Tanker {
+02     //向和自己关联的战斗机送油
+03     public void transfer(){
+04         //自身储油减少300单位
+05         this.storage -= 300;
+06         //向与自己关联的战斗机发送受油消息
+07         this.fighter.receiveFuel();
+08 
+09     }
+10     //指向相关联的战斗机对象
+11     public Fighter fighter;
+12     //外供燃料箱初始燃料数量
+13     public int storage = 10000;
+14 }
+
+01 public class Tanker {
+02     //向和自己关联的战斗机送油
+03     public void transferToFighter(){
+04         //自身储油减少300单位
+05         this.storage -= 300;
+06         //向与自己关联的战斗机发送受油消息
+07         this.fighter.receiveFuel();
+08 
+09     }
+10     public void transferToBomber(){
+11         //自身储油减少300单位
+12         this.storage -= 300;
+13         //向与自己关联的战斗机发送受油消息
+14         this.bomber.receiveFuel();
+15 
+16     }
+17     //指向相关联的战轰炸机对象
+18     public Bomber bomber;
+19     //指向相关联的战斗机对象
+20     public Fighter fighter;
+21     //外供燃料箱初始燃料数量
+22     public int storage = 10000;
+23 }
+
+01 public class Tanker {
+02     //向和自己关联的战斗机送油
+03     public void transferToFighter(){
+04         //自身储油减少300单位
+05         this.storage -= 300;
+06         //向与自己关联的战斗机发送受油消息
+07         this.fighter.receiveFuel();
+08     }
+09     public void transferToBomber(){
+10         //自身储油减少300单位
+11         this.storage -= 300;
+12         //向与自己关联的战斗机发送受油消息
+13         this.bomber.receiveFuel();
+14     }
+15     //指向相关联的战轰炸机对象
+16     public Bomber bomber;
+17     //指向相关联的战斗机对象
+18     public Fighter fighter;
+19     //外供燃料箱初始燃料数量
+20     public int storage = 10000;
+21 }
